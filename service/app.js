@@ -21,7 +21,7 @@ app.get('/api', (req, res) => {
 app.get('/api/posts', (req, res) => {
     return res.status(200).json({ data: data.posts });
 });
-
+// New post
 app.post('/api/posts', async (req, res) => {
     const id = Math.floor(Math.random() * 100000);
     const { usernamepost } = req.body;
@@ -37,12 +37,26 @@ app.post('/api/posts', async (req, res) => {
     await fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(data));
     return res.status(200).json({ data: data.posts });
 });
+// Delete post 
+app.delete('/api/posts/:id', (req, res) => {
+  const postId = parseInt(req.params.id);
+
+  // Find the index of the post with the given ID
+  const index = data.posts.findIndex(post => post.id === postId);
+
+  if (index !== -1) {
+    data.posts.splice(index, 1);
+    res.status(204).send();
+  } else {
+    res.status(404).json({ error: `Post with ID ${postId} not found` });
+  }
+});
 
 // Comments
 app.get('/api/comments', (req, res) => {
     return res.status(200).json({ data: data.comments });
 });
-
+//New comments
 app.post('/api/comments', async (req, res) => {
     const id = Math.floor(Math.random() * 100000);
     const { usernamecomment } = req.body;
@@ -56,6 +70,18 @@ app.post('/api/comments', async (req, res) => {
     await fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(data));
     return res.status(200).json({ data: data.comments });
 });
+// Delete comment 
+app.delete('/api/comments/:id', (req, res) => {
+    const commentId = parseInt(req.params.id);
+    const index = data.comments.findIndex(comment => comment.id === commentId);
+  
+    if (index !== -1) {
+        data.comments.splice(index, 1);
+        res.status(204).send();
+    } else {
+        res.status(404).json({ error: `Post with ID ${commentId} not found` });
+    }
+  });
 
 // 404 page not found
 app.use('*', (req, res) => {
