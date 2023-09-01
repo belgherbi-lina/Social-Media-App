@@ -21,37 +21,67 @@ app.get('/api', (req, res) => {
 app.get('/api/posts', (req, res) => {
     return res.status(200).json({ data: data.posts });
 });
-
+// New post
 app.post('/api/posts', async (req, res) => {
     const id = Math.floor(Math.random() * 100000);
-    const { post } = req.body;
+    const { usernamepost } = req.body;
+    const { image } = req.body;
+    const { description } = req.body;
+    
 
-    if (!post) {
-        return res.status(400).json({ error: 'post is required' });
+    if (!usernamepost ) {
+        return res.status(400).json({ error: 'username is required' });
     }
 
-    data.posts.push({ id, post });
+    data.posts.push({ id, usernamepost , image, description });
     await fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(data));
     return res.status(200).json({ data: data.posts });
+});
+// Delete post 
+app.delete('/api/posts/:id', (req, res) => {
+  const postId = parseInt(req.params.id);
+
+  // Find the index of the post with the given ID
+  const index = data.posts.findIndex(post => post.id === postId);
+
+  if (index !== -1) {
+    data.posts.splice(index, 1);
+    res.status(204).send();
+  } else {
+    res.status(404).json({ error: `Post with ID ${postId} not found` });
+  }
 });
 
 // Comments
 app.get('/api/comments', (req, res) => {
     return res.status(200).json({ data: data.comments });
 });
-
+//New comments
 app.post('/api/comments', async (req, res) => {
     const id = Math.floor(Math.random() * 100000);
+    const { usernamecomment } = req.body;
     const { comment } = req.body;
 
     if (!comment) {
         return res.status(400).json({ error: 'comment is required' });
     }
 
-    data.comments.push({ id, comment });
+    data.comments.push({ id, usernamecomment , comment });
     await fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(data));
     return res.status(200).json({ data: data.comments });
 });
+// Delete comment 
+app.delete('/api/comments/:id', (req, res) => {
+    const commentId = parseInt(req.params.id);
+    const index = data.comments.findIndex(comment => comment.id === commentId);
+  
+    if (index !== -1) {
+        data.comments.splice(index, 1);
+        res.status(204).send();
+    } else {
+        res.status(404).json({ error: `Post with ID ${commentId} not found` });
+    }
+  });
 
 // 404 page not found
 app.use('*', (req, res) => {
