@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+    <body>
+        <section>
+            <nav>
+                <h1>Home</h1>
+                <ul>
+                    <li>
+                        <button type="submit" id="createPost">Add</button>
+                    </li>
+                </ul>
+            </nav>
+            <main>
+                <div id="post">
+                    <div class="head">
+                        <h1>Username</h1>
+                        <button id="update">Update</button>
+                        <button id="delete">Delete</button>
+                    </div>
+                    <img src="images/post-1.jpg" alt="post1">
+
+                    <p>
+                        Being more productive means finding ways to maximize 
+                        your time and accomplish tasks efficiently.
+                    </p>
+                    <div class="react">
+                        <button>Like</button>
+                        <input type="button" value="Comments">
+                    </div>
+                </div>
+            </main>
+        </section>
+        <div id="popup-new">
+            <div class="post-data">
+                <h1>New Post</h1>
+                <h3>Username</h3>
+                <input type="text" id="username">
+                <h3>Image Url</h3>
+                <input type="text" id="img-url">
+                <h3>Description</h3>
+                <input type="text" id="description">
+                <div class="btns">
+                    <button id="cancel">
+                        Cancel
+                    </button>
+                    <button id="submit">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <script src="script.js"></script>
+    </body>
+</html>
