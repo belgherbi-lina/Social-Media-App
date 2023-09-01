@@ -1,1 +1,1 @@
-{"posts":[{"id":1,"post":"welcome to social media app"}],"comments":[{"id":3,"comment":"hello world"}]}
+{"posts":[{"id":1,"usernamepost":"anna","image":"https://img.freepik.com/free-vector/colorful-welcome-composition-with-origami-style_23-2147919827.jpg?w=740&t=st=1693564293~exp=1693564893~hmac=bdab392b0a7d164fbe3aad217eb3c4b0880df585909034374cc3816a3706e94e","description":"welcome to social media app"}],"comments":[{"id":3,"usernamecomment":"lina","comment":"hello world"}]}

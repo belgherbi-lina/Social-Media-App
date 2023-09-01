@@ -24,13 +24,16 @@ app.get('/api/posts', (req, res) => {
 
 app.post('/api/posts', async (req, res) => {
     const id = Math.floor(Math.random() * 100000);
-    const { post } = req.body;
+    const { usernamepost } = req.body;
+    const { image } = req.body;
+    const { description } = req.body;
+    
 
-    if (!post) {
-        return res.status(400).json({ error: 'post is required' });
+    if (!usernamepost ) {
+        return res.status(400).json({ error: 'username is required' });
     }
 
-    data.posts.push({ id, post });
+    data.posts.push({ id, usernamepost , image, description });
     await fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(data));
     return res.status(200).json({ data: data.posts });
 });
@@ -42,13 +45,14 @@ app.get('/api/comments', (req, res) => {
 
 app.post('/api/comments', async (req, res) => {
     const id = Math.floor(Math.random() * 100000);
+    const { usernamecomment } = req.body;
     const { comment } = req.body;
 
     if (!comment) {
         return res.status(400).json({ error: 'comment is required' });
     }
 
-    data.comments.push({ id, comment });
+    data.comments.push({ id, usernamecomment , comment });
     await fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(data));
     return res.status(200).json({ data: data.comments });
 });
