@@ -3,10 +3,9 @@ const deletePost = document.querySelector('#delete');
 const popupNew = document.querySelector('#popupnew');
 const cancel = document.querySelector('#cancel');
 const submit = document.querySelector('#submit');
+const imag = document.querySelector('#imag');
 let popupNewStatus = false;
 
-//const username = document.querySelector('#usernamepost');
-const imag = document.querySelector('#imag');
 let user = [];
 
 createPost.addEventListener('click', () => {
@@ -56,6 +55,7 @@ const createTicketDom = (id, usernamepost , image , description, ispost ) => {
 
             user.data.forEach((task) => {
                 imag.append(createTicketDom(task.id, task.usernamepost, task.image , task.description, true));
+                
             });
         } catch (err) {
             console.error(err.message);
@@ -64,13 +64,15 @@ const createTicketDom = (id, usernamepost , image , description, ispost ) => {
 )(user,createTicketDom);
 
 const submitEvent = async () => {
-    const data = popupnew.querySelector('input').value;
+    const dataname = popupnew.querySelector('#username').value;
+    const dataimg = popupnew.querySelector('#img-url').value;
+    const datadesc = popupnew.querySelector('#description').value;
     await fetch('http://localhost:3000/api/posts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ usernamepost : data , image : data , description : data })
+        body: JSON.stringify({ usernamepost : dataname , image : dataimg , description : datadesc })
     });
 
     location.reload();

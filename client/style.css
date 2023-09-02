@@ -55,8 +55,8 @@ body {
         }
         & > main {
             margin-top: 100px;
-            & > div#post {
-                width: 350px;
+            & > #post {
+                width: 400px;
                 margin: 0 auto;
                 display: grid;
                 gap: 0.4rem;
@@ -68,13 +68,14 @@ body {
                 overflow: hidden;
                 & > div.head {
                     display: grid;
-                    grid-template-columns: 2fr  0.3fr 0.3fr;
+                    grid-template-columns: 4fr 2fr 2fr;
                     gap: 0.5rem;
                     & > button {
                         margin-top: 0.4rem;
                         border: none;
                         background: #e6ebec;
                         cursor: pointer;
+                        width: 10%;
                     }
                     & > button#update:hover {
                         color: #A0BFE0;
@@ -83,17 +84,7 @@ body {
                         color: brown;
                     }
                 }
-                & > img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    border-radius: 5px 5px 0 0;
-                }
-                & > p {
-                    font-weight: var(--Font-weight-light);
-                    font-size: 1.2rem;
-                    padding-top: 0.6rem;
-                }
+                
                 & > div.react {
                     display: grid;
                     grid-template-columns: 0.3fr 1fr;
@@ -115,7 +106,7 @@ body {
                     & > a {
                         border-radius: 1rem;
                         text-decoration: none;
-                        border: none;
+                        width: 90%;
                         padding: 0.5rem 1rem;
                         background: white;
                         color: #333;
@@ -134,12 +125,12 @@ body {
 
 #popupnew {
     display: none;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 98.7vw;
-    height: 140vh;
+    min-height: 140vh;
     background-color: rgba(0,0,0,0.8);
     color: white;
 
@@ -189,5 +180,29 @@ body {
                 background-color: #A86CE4;
             }
         }
+    }
+}
+.ticket {
+    width: 100%;
+    margin: 10px 0;
+    transition: all 0.2s ease-in-out;
+
+    & > h1 {
+        font-size: 1.5rem;
+        font-weight: var(--font-weight-medium);
+        margin: 0.5rem 1rem;
+    }
+    & > img {
+        width: 100%;
+    }
+    &:hover {
+        background-color: #6ca4e4;
+        color: white;
+    }
+
+    & > p {
+        font-weight: var(--Font-weight-light);
+        font-size: 1rem;
+        padding: 0.6rem;
     }
 }
