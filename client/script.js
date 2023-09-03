@@ -21,6 +21,15 @@ cancel.addEventListener('click', () => {
     popupNewStatus = !popupNewStatus;
 });
 
+function createCommentElement(usernamecomment, commentText) {
+  const commentDiv = document.createElement('div');
+  commentDiv.classList.add('comment');
+  commentDiv.innerHTML = `
+      <strong>${usernamecomment}:</strong> ${commentText}
+  `;
+  return commentDiv;
+}
+
 const CreatePOST = (id, usernamepost, image, description, ispost) => {
     const post = document.createElement('div');
     post.classList.add('post');
@@ -41,7 +50,7 @@ const CreatePOST = (id, usernamepost, image, description, ispost) => {
             </div>
         </div>
         <div class="comments-section"></div>`;
-
+    
     // Update Button
     const updateButton = post.querySelector('#update');
     updateButton.addEventListener('click', () => {
@@ -95,7 +104,7 @@ const CreatePOST = (id, usernamepost, image, description, ispost) => {
   
     return post;
   };
-  
+    
   async function updatePost(postId, usernamepost, image, description) {
     try {
         const response = await fetch(`http://localhost:3000/api/posts/${postId}`, {
@@ -122,8 +131,6 @@ const CreatePOST = (id, usernamepost, image, description, ispost) => {
     }
 }
 
-
-
 (
     async function () {
         try {
@@ -134,6 +141,7 @@ const CreatePOST = (id, usernamepost, image, description, ispost) => {
                 imag.append(CreatePOST(task.id, task.usernamepost, task.image , task.description ,true));
                 
             });
+            
         } catch (err) {
             console.error(err.message);
         }
@@ -154,7 +162,6 @@ const submitEvent = async () => {
 
     location.reload();
 }
-
 submit.addEventListener('click', async () => {
     await submitEvent();
 });

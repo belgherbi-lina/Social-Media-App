@@ -1,14 +1,12 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const app = express()
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
-const app = express();
 const PORT = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(bodyParser.json());
 app.use(cors());
 
 const db = fs.readFileSync(path.resolve(__dirname, 'db.json'));
@@ -67,6 +65,71 @@ app.put('/api/posts/:id', async (req, res) => {
     return res.status(200).json({ message: 'Post updated successfully', post: data.posts[postIndex] });
 });
 
+app.post('/api/posts/:id/comments', (req, res) => {
+    const postId = parseInt(req.params.id);
+    const { usernamecomment, commentText } = req.body;
+  
+    const post = data.posts.find((post) => post.id === postId);
+  
+    if (!post) {
+      return res.status(404).json({ error: `Post with ID ${postId} not found` });
+    }
+  
+    const newComment = {
+      id: generateCommentId(), // Implement a function to generate unique comment IDs
+      usernamecomment,
+      commentText,
+    };
+  
+    post.comments.push(newComment);
+  
+    // Update your data file or database here if needed
+  
+    res.status(201).json(newComment);
+  });
+  
+/*
+// Get comments for a specific post
+app.get('/api/posts/:id/comments', (req, res) => {
+    const postId = parseInt(req.params.id);
+    const post = data.posts.find((post) => post.id === postId);
+
+    if (!post) {
+        return res.status(404).json({ error: 'Post not found' });
+    }
+
+    return res.status(200).json({ comments: post.comments });
+});
+
+// Create a new comment for a specific post
+app.post('/api/posts/:id/comments', async (req, res) => {
+    const postId = parseInt(req.params.id);
+    const post = data.posts.find((post) => post.id === postId);
+
+    if (!post) {
+        return res.status(404).json({ error: 'Post not found' });
+    }
+
+    const { commentText: comment } = req.body;
+
+    if (!comment) {
+        return res.status(400).json({ error: 'Comment text is required' });
+    }
+
+    const newComment = {
+        id: generateUniqueId(), // Generate a unique ID for the comment
+        usernamecomment: 'SomeUser', // You can set the username of the commenter here
+        commentText: comment,
+    };
+
+    post.comments.push(newComment);
+
+    await fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(data));
+
+    return res.status(200).json(newComment);
+});
+
+/*
 // Comments
 app.get('/api/comments', (req, res) => {
     const postId = parseInt(req.params.id);
@@ -103,7 +166,7 @@ app.delete('/api/comments/:id', (req, res) => {
     } else {
         res.status(404).json({ error: `Post with ID ${commentId} not found` });
     }
-});
+});*/
 
 // 404 page not found
 app.use('*', (req, res) => {
