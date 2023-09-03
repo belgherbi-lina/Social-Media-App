@@ -3,6 +3,7 @@ const popupNew = document.querySelector('#popupnew');
 const cancel = document.querySelector('#cancel');
 const submit = document.querySelector('#submit');
 const imag = document.querySelector('#post');
+const url = 'https://social-media-app-30-days-backend.onrender.com/'
 let popupNewStatus = false;
 let user = [];
 
@@ -20,14 +21,6 @@ cancel.addEventListener('click', () => {
     popupNewStatus = !popupNewStatus;
 });
 
-function createCommentElement(usernamecomment, commentText) {
-  const commentDiv = document.createElement('div');
-  commentDiv.classList.add('comment');
-  commentDiv.innerHTML = `
-      <strong>${usernamecomment}:</strong> ${commentText}
-  `;
-  return commentDiv;
-}
 
 const CreatePOST = (id, usernamepost, image, description, ispost) => {
     const post = document.createElement('div');
@@ -58,19 +51,18 @@ const CreatePOST = (id, usernamepost, image, description, ispost) => {
         const UpdatedDescription = prompt('Enter the updated description:', description);
 
         if (UpdatedUsername !== null && UpdatedImage !== null && UpdatedDescription !== null) {
-            // Send a PUT request to update the post
             usernamepost = UpdatedUsername ;
             image = UpdatedImage ;
             description = UpdatedDescription ;
             updatePost(id, usernamepost, image, description);
         }
+        location.reload();
     });
     // Delete button
     const deleteButton = post.querySelector('#delete');
     deleteButton.addEventListener('click', async () => {
-      // Send a DELETE request to your backend to delete the post by ID
       try {
-        const response = await fetch(`http://localhost:3000/api/posts/${id}`, {
+        const response = await fetch(`${url}api/posts/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -78,9 +70,8 @@ const CreatePOST = (id, usernamepost, image, description, ispost) => {
         });
   
         if (response.ok) {
-          // Post successfully deleted, update your UI as needed
           console.log(`Post with ID ${id} deleted successfully`);
-          post.remove(); // Remove the deleted post from the UI
+          post.remove();
         } else {
           console.error('Failed to delete the post');
         }
@@ -90,7 +81,7 @@ const CreatePOST = (id, usernamepost, image, description, ispost) => {
     });
     if (ispost) {
       post.addEventListener('click', async (e) => {
-        await fetch('http://localhost:3000/api/posts', {
+        await fetch(`${url}api/posts`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -106,7 +97,7 @@ const CreatePOST = (id, usernamepost, image, description, ispost) => {
     
   async function updatePost(postId, usernamepost, image, description) {
     try {
-        const response = await fetch(`http://localhost:3000/api/posts/${postId}`, {
+        const response = await fetch(`${url}api/posts/${postId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -119,10 +110,8 @@ const CreatePOST = (id, usernamepost, image, description, ispost) => {
         });
 
         if (response.ok) {
-            // Post updated successfully, you can update your UI as needed
             console.log(`Post with ID ${postId} updated successfully`);
         } else {
-            // Handle the case where the update failed, e.g., display an error message
             console.error('Failed to update the post');
         }
     } catch (error) {
@@ -133,7 +122,7 @@ const CreatePOST = (id, usernamepost, image, description, ispost) => {
 (
     async function () {
         try {
-            const UNdata = await fetch('http://localhost:3000/api/posts');
+            const UNdata = await fetch(`${url}api/posts`);
             user = await UNdata.json();
 
             user.data.forEach((task) => {
@@ -151,7 +140,7 @@ const submitEvent = async () => {
     const dataname = popupnew.querySelector('#username').value;
     const dataimg = popupnew.querySelector('#img-url').value;
     const datadesc = popupnew.querySelector('#description').value;
-    await fetch('http://localhost:3000/api/posts', {
+    await fetch(`${url}api/posts`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
