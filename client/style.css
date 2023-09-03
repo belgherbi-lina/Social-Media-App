@@ -18,109 +18,41 @@ body {
     font-family: var(--Font-family);
     min-height: 100vh;
     & > section {
-        & > nav {
-                height: auto;
-                width: 100%;
-                position: fixed;
-                top: 0;
-                left: 0;
-                display: grid;
-                grid-template-columns: 17fr 1fr;
-                align-content: center;
-                background-color: #eaeaea;
-    
-                & > h1 {
-                    font-size: 2rem;
-                    font-weight: var(--font-weight-medium);
-                    margin: 1rem 2rem;
-                }
-
-                & > ul {
-                    list-style: none;
-                    align-self: center;
+            & > nav {
+                    height: auto;
+                    width: 100%;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
                     display: grid;
-                    justify-content: end;
-    
-                    & > li {
-                        & > button {
-                            padding: 0.6rem 2rem;
-                            border-radius: 5px;
-                            background-color: #333;
-                            color: #fff;
-                            margin-right: 1rem;
-                            cursor: pointer;
+                    grid-template-columns: 17fr 1fr;
+                    align-content: center;
+                    background-color: #eaeaea;
+                    & > h1 {
+                        font-size: 2rem;
+                        font-weight: var(--font-weight-medium);
+                        margin: 1rem 2rem;
+                    }
+
+                    & > ul {
+                        list-style: none;
+                        align-self: center;
+                        display: grid;
+                        justify-content: end;
+        
+                        & > li {
+                            & > button {
+                                padding: 0.6rem 2rem;
+                                border-radius: 5px;
+                                background-color: #333;
+                                color: #fff;
+                                margin-right: 1rem;
+                                cursor: pointer;
+                            }
                         }
                     }
-                }
-        }
-        & > main {
-            margin-top: 100px;
-            & > #post {
-                width: 400px;
-                margin: 0 auto;
-                display: grid;
-                gap: 0.4rem;
-                margin-bottom: 2rem;
-                border: 1px solid #eaeaea;
-                background-color: #e6ebec;
-                border-radius: 5px;
-                padding: 0.7rem;
-                overflow: hidden;
-                & > div.head {
-                    display: grid;
-                    grid-template-columns: 4fr 2fr 2fr;
-                    gap: 0.5rem;
-                    & > button {
-                        margin-top: 0.4rem;
-                        border: none;
-                        background: #e6ebec;
-                        cursor: pointer;
-                        width: 10%;
-                    }
-                    & > button#update:hover {
-                        color: #A0BFE0;
-                    }
-                    & > button#delete:hover {
-                        color: brown;
-                    }
-                }
-                
-                & > div.react {
-                    display: grid;
-                    grid-template-columns: 0.3fr 1fr;
-                    gap: 0.5rem;
-                    padding-top: 0.4rem;
-                    & > button {
-                        padding: 0.3rem;
-                        font-size: 0.9rem;
-                        font-weight: var(--Font-weight-medium);
-                        border: none;
-                        border-radius: 1rem;
-                        background: #A0BFE0;
-                        color: white;
-                        cursor: pointer;
-                    }
-                    & > button:hover {
-                        background: #98a7b7;
-                    }
-                    & > a {
-                        border-radius: 1rem;
-                        text-decoration: none;
-                        width: 90%;
-                        padding: 0.5rem 1rem;
-                        background: white;
-                        color: #333;
-                    }
-                    & > a:hover {
-                        background: #c6d9ed;
-                        color: white;
-                    }
-                }
-                
             }
-        }
     }
-    
 }
 
 #popupnew {
@@ -182,22 +114,39 @@ body {
         }
     }
 }
-.ticket {
-    width: 100%;
-    margin: 10px 0;
+.post {
+    margin: 100px auto 10px auto ;
+    width: 400px;
+    display: grid;
+    border: 1px solid #eaeaea;
+    background-color: #e6ebec;
+    border-radius: 5px;
+    padding: 1rem;
+    overflow: hidden;
     transition: all 0.2s ease-in-out;
-
-    & > h1 {
-        font-size: 1.5rem;
-        font-weight: var(--font-weight-medium);
-        margin: 0.5rem 1rem;
+    & > .head {
+        display: grid;
+        grid-template-columns: 5fr 1fr 1fr;
+        & > h1 {
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-medium);
+            margin: 0.5rem 1rem;
+        }
+        & > button {
+            margin-top: 0.4rem;
+            border: none;
+            cursor: pointer;
+            width: 0;
+        }
+        & > button#update:hover {
+            color: #279EFF;
+        }
+        & > button#delete:hover {
+            color: #FE0000;
+        }
     }
     & > img {
         width: 100%;
-    }
-    &:hover {
-        background-color: #6ca4e4;
-        color: white;
     }
 
     & > p {
@@ -205,4 +154,43 @@ body {
         font-size: 1rem;
         padding: 0.6rem;
     }
+    & > .react {
+        display: grid;
+        grid-template-columns: 0.5fr 2fr;
+        gap: 1rem;
+        padding-top: 0.4rem;
+        & > button {
+            padding: 0.3rem;
+            font-size: 0.9rem;
+            font-weight: var(--Font-weight-medium);
+            border: none;
+            border-radius: 1rem;
+            background: #4bacec;
+            color: white;
+            cursor: pointer;
+        }
+        & > button:hover {
+            background: #e01b1b;
+        }
+        & > #comment-div {
+            & > .comment-input {
+                width: 68%;
+                padding: 0.5rem;
+                border-radius: 1rem
+            }
+            & > #comment-button{
+                border-radius: 1rem;
+                text-decoration: none;
+                width: 30%;
+                padding: 0.5rem 1rem;
+                background: white;
+                color: #333;
+            }
+            & > #comment-button:hover {
+                background: #279EFF;
+                border: none;
+                color: white;
+            }
+        }
+    } 
 }

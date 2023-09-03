@@ -1,12 +1,11 @@
 const createPost = document.querySelector('#createPost');
-const deletePost = document.querySelector('#delete');
 const popupNew = document.querySelector('#popupnew');
 const cancel = document.querySelector('#cancel');
 const submit = document.querySelector('#submit');
-const imag = document.querySelector('#imag');
+const imag = document.querySelector('#post');
 let popupNewStatus = false;
-
 let user = [];
+
 
 createPost.addEventListener('click', () => {
     if (popupNewStatus) {
@@ -22,30 +21,108 @@ cancel.addEventListener('click', () => {
     popupNewStatus = !popupNewStatus;
 });
 
-const createTicketDom = (id, usernamepost , image , description, ispost ) => {
+const CreatePOST = (id, usernamepost, image, description, ispost) => {
     const post = document.createElement('div');
-    post.classList.add('ticket');
-    post.id = id ;
+    post.classList.add('post');
+    post.id = id; 
     post.innerHTML = `
+        <div class="head">
             <h1>${usernamepost}</h1>
-            <img src="${image}" alt="image">
-            <p>${description}</p>
-        `;
-    if (ispost) {
-        post.addEventListener('click', async (e) => {
-            await fetch(`http://localhost:3000/api/posts`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: id })
-            });
+            <button id="update">Update</button>
+            <button id="delete">Delete</button>
+        </div>
+        <img src="${image}" alt="image">
+        <p>${description}</p>
+        <div class="react">
+            <button>Like</button>
+            <div id="comment-div">
+            <input class="comment-input" type="text" placeholder="Add a comment">
+            <button id="comment-button">Add</button>
+            </div>
+        </div>
+        <div class="comments-section"></div>`;
 
-            location.reload();
+    // Update Button
+    const updateButton = post.querySelector('#update');
+    updateButton.addEventListener('click', () => {
+        const UpdatedUsername = prompt('Enter the updated username:', usernamepost);
+        const UpdatedImage = prompt('Enter the updated image URL:', image);
+        const UpdatedDescription = prompt('Enter the updated description:', description);
+
+        if (UpdatedUsername !== null && UpdatedImage !== null && UpdatedDescription !== null) {
+            // Send a PUT request to update the post
+            usernamepost = UpdatedUsername ;
+            image = UpdatedImage ;
+            description = UpdatedDescription ;
+            updatePost(id, usernamepost, image, description);
+        }
+    });
+    // Delete button
+    const deleteButton = post.querySelector('#delete');
+    deleteButton.addEventListener('click', async () => {
+      // Send a DELETE request to your backend to delete the post by ID
+      try {
+        const response = await fetch(`http://localhost:3000/api/posts/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
+  
+        if (response.ok) {
+          // Post successfully deleted, update your UI as needed
+          console.log(`Post with ID ${id} deleted successfully`);
+          post.remove(); // Remove the deleted post from the UI
+        } else {
+          console.error('Failed to delete the post');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+    if (ispost) {
+      post.addEventListener('click', async (e) => {
+        await fetch('http://localhost:3000/api/posts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: id }),
+        });
+        
+      });
     }
+  
     return post;
+  };
+  
+  async function updatePost(postId, usernamepost, image, description) {
+    try {
+        const response = await fetch(`http://localhost:3000/api/posts/${postId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                usernamepost,
+                image,
+                description,
+            }),
+        });
+
+        if (response.ok) {
+            // Post updated successfully, you can update your UI as needed
+            console.log(`Post with ID ${postId} updated successfully`);
+        } else {
+            // Handle the case where the update failed, e.g., display an error message
+            console.error('Failed to update the post');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
+
+
 
 (
     async function () {
@@ -54,14 +131,14 @@ const createTicketDom = (id, usernamepost , image , description, ispost ) => {
             user = await UNdata.json();
 
             user.data.forEach((task) => {
-                imag.append(createTicketDom(task.id, task.usernamepost, task.image , task.description, true));
+                imag.append(CreatePOST(task.id, task.usernamepost, task.image , task.description ,true));
                 
             });
         } catch (err) {
             console.error(err.message);
         }
     }
-)(user,createTicketDom);
+)(user,CreatePOST);
 
 const submitEvent = async () => {
     const dataname = popupnew.querySelector('#username').value;
@@ -81,3 +158,4 @@ const submitEvent = async () => {
 submit.addEventListener('click', async () => {
     await submitEvent();
 });
+
