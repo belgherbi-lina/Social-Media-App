@@ -6,7 +6,6 @@ const imag = document.querySelector('#post');
 let popupNewStatus = false;
 let user = [];
 
-
 createPost.addEventListener('click', () => {
     if (popupNewStatus) {
         popupNew.style.display = 'none';
@@ -165,4 +164,3 @@ const submitEvent = async () => {
 submit.addEventListener('click', async () => {
     await submitEvent();
 });
-

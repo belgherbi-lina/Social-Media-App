@@ -88,7 +88,7 @@ app.post('/api/posts/:id/comments', (req, res) => {
     res.status(201).json(newComment);
   });
   
-/*
+
 // Get comments for a specific post
 app.get('/api/posts/:id/comments', (req, res) => {
     const postId = parseInt(req.params.id);
