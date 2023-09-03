@@ -76,20 +76,17 @@ app.post('/api/posts/:id/comments', (req, res) => {
     }
   
     const newComment = {
-      id: generateCommentId(), // Implement a function to generate unique comment IDs
+      id: generateCommentId(), 
       usernamecomment,
       commentText,
     };
   
-    post.comments.push(newComment);
-  
-    // Update your data file or database here if needed
-  
+    post.comments.push(newComment);  
     res.status(201).json(newComment);
   });
   
 
-// Get comments for a specific post
+// comments 
 app.get('/api/posts/:id/comments', (req, res) => {
     const postId = parseInt(req.params.id);
     const post = data.posts.find((post) => post.id === postId);
@@ -101,7 +98,7 @@ app.get('/api/posts/:id/comments', (req, res) => {
     return res.status(200).json({ comments: post.comments });
 });
 
-// Create a new comment for a specific post
+// Create  new comment 
 app.post('/api/posts/:id/comments', async (req, res) => {
     const postId = parseInt(req.params.id);
     const post = data.posts.find((post) => post.id === postId);
@@ -128,45 +125,6 @@ app.post('/api/posts/:id/comments', async (req, res) => {
 
     return res.status(200).json(newComment);
 });
-
-/*
-// Comments
-app.get('/api/comments', (req, res) => {
-    const postId = parseInt(req.params.id);
-
-    const post = data.posts.find((post) => post.id === postId);
-    if (!post) {
-        return res.status(404).json({ error: 'Post not found' });
-    }
-
-    return res.status(200).json({ data: data.comments });
-});
-//New comments
-app.post('/api/comments', async (req, res) => {
-    const id = Math.floor(Math.random() * 100000);
-    const { usernamecomment } = req.body;
-    const { comment } = req.body;
-
-    if (!comment) {
-        return res.status(400).json({ error: 'comment is required' });
-    }
-
-    data.comments.push({ id, usernamecomment , comment });
-    await fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(data));
-    return res.status(200).json({ data: data.comments });
-});
-// Delete comment 
-app.delete('/api/comments/:id', (req, res) => {
-    const commentId = parseInt(req.params.id);
-    const index = data.comments.findIndex(comment => comment.id === commentId);
-  
-    if (index !== -1) {
-        data.comments.splice(index, 1);
-        res.status(204).send();
-    } else {
-        res.status(404).json({ error: `Post with ID ${commentId} not found` });
-    }
-});*/
 
 // 404 page not found
 app.use('*', (req, res) => {
